@@ -22,6 +22,8 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/footprint_review
       DB_USERNAME: postgres
       DB_PASSWORD: ${DB_PASSWORD:-footprint_demo}
+      SPRING_PROFILES_ACTIVE: demo
+      DEMO_PASSWORD: ${DEMO_PASSWORD:?Set DEMO_PASSWORD in the backend .env file}
     depends_on:
       postgres:
         condition: service_healthy
