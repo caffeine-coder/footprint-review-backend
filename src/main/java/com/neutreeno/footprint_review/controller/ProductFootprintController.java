@@ -21,8 +21,12 @@ public class ProductFootprintController {
     }
 
     @GetMapping
-    public List<ProductFootPrint> getAllFootprints() {
-        return service.getAllFootprints();
+    public ProductFootprintService.PageResult getAllFootprints(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "ALL") String status,
+            @RequestParam(defaultValue = "") String search) {
+        return service.getAllFootprints(page, size, status, search.trim());
     }
 
     @GetMapping("/{id}")

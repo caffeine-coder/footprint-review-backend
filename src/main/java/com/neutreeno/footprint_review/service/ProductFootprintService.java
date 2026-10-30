@@ -18,9 +18,23 @@ public class ProductFootprintService {
         this.repository = repository;
     }
 
-    public List<ProductFootPrint> getAllFootprints() {
-        return repository.findAll();
+
+    public PageResult getAllFootprints(int page, int size, String status, String search) {
+        page = Math.max(0, page);
+        size = 10;
+
+        if (!status.equals("ALL") && !status.equals("PENDING")
+                && !status.equals("APPROVED") && !status.equals("REJECTED")) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid status");
+        }
+
+        List<ProductFootPrint> items = repository.findAll(page, size, status, search);
+        long total = repository.countAll(status, search);
+
+        return new PageResult(items, total, page, size);
     }
+
+    public record PageResult(List<ProductFootPrint> items, long total, int page, int size) {}
 
     public ProductFootPrint getFootprintById(Long id) {
 

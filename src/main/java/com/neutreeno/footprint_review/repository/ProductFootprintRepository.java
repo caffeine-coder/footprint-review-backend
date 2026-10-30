@@ -45,15 +45,34 @@ public class ProductFootprintRepository {
         return footprint;
     };
 
-    public List<ProductFootPrint> findAll() {
 
+    public List<ProductFootPrint> findAll(int page, int size, String status, String search) {
         String sql = """
-                SELECT * FROM product_footprints
-                ORDER BY submitted_at DESC
-                """;
+            SELECT * FROM product_footprints
+            WHERE (? = 'ALL' OR status = ?)
+            AND (LOWER(product_name) LIKE ? OR LOWER(supplier_name) LIKE ?)
+            ORDER BY submitted_at DESC, id DESC
+            LIMIT ? OFFSET ?
+            """;
 
-        return jdbcTemplate.query(sql, rowMapper);
+        String searchText = "%" + search.toLowerCase() + "%";
+
+        return jdbcTemplate.query(sql, rowMapper,
+                status, status, searchText, searchText, size, page * size);
     }
+
+    public long countAll(String status, String search) {
+        String sql = """
+            SELECT COUNT(*) FROM product_footprints
+            WHERE (? = 'ALL' OR status = ?)
+            AND (LOWER(product_name) LIKE ? OR LOWER(supplier_name) LIKE ?)
+            """;
+
+        String searchText = "%" + search.toLowerCase() + "%";
+
+        return jdbcTemplate.queryForObject(sql, Long.class, status, status, searchText, searchText);
+    }
+
 
     public Optional<ProductFootPrint> findById(Long id) {
 
