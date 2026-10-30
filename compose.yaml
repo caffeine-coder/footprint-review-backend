@@ -1,4 +1,3 @@
-
 services:
   postgres:
     image: postgres:16
@@ -23,7 +22,7 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: ${DB_PASSWORD:-footprint_demo}
       SPRING_PROFILES_ACTIVE: demo
-      DEMO_PASSWORD: ${DEMO_PASSWORD:?Set DEMO_PASSWORD in the backend .env file}
+      DEMO_PASSWORD: ${DEMO_PASSWORD:-footprint_demo_2026}
     depends_on:
       postgres:
         condition: service_healthy
