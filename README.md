@@ -2,6 +2,18 @@
 
 A small Spring Boot API for reviewing product carbon footprint submissions. It uses Java 21, PostgreSQL, Spring Security and JDBC.
 
+## Stack choice
+
+- **Java 21** - Used for the backend application.
+- **Spring Boot** - Used to build the REST API and manage application configuration.
+- **Spring Security** - Used for authentication, sessions and role-based access.
+- **PostgreSQL** - Used to store footprint submissions, users and review history.
+- **Spring JDBC** - Used for database queries because the data access requirements are fairly simple.
+- **JPA** - Used for entity mapping and database table creation.
+- **Docker Compose** - Used to run the backend and PostgreSQL together locally.
+
+I used Java and Spring Boot because I'm familiar with them and wanted to keep the backend straightforward.
+
 ## Run with Docker
 
 You'll need Docker Desktop.
@@ -47,9 +59,33 @@ then is deployed to ec2 through a document setup. Used a subdomain from my exist
 
 The API uses session cookies. Requests that change data require a CSRF token.
 
+## Trade-offs
+
+I focused on the APIs needed for the review workflow instead of building a larger system.
+
+- Used JDBC for queries rather than adding a more complex data access layer.
+- Kept the application as a single Spring Boot service.
+- Used session-based authentication instead of introducing JWT.
+- Used a fixed page size of 10 for pagination.
+- Used sample data to demonstrate the review flow rather than building submission creation APIs.
+- Used Hibernate's schema update configuration for the database setup.
+
+These choices helped keep the implementation smaller and easier to understand.
+
+## Future improvements
+
+If I were moving this towards production, I would:
+
+- Add secure sharing with record-level permissions.
+- Add integration tests for the API and security rules.
+- Version database migrations.
+- Add more logging and monitoring.
+- Improve database indexing if the number of submissions increases.
+- Review the security configuration and deployment secrets for production use.
+
 ## AI usage
 
 - Took help of AI to setup spring security config as it is a repetitive code.
 - Used AI to understand the emissions data model because this domain was new to me, and to help set up the initial app skeleton.
 - Core application logic and data handling were written and adjusted by completely by me
-- Clean readme file
+- Enhance readme file
