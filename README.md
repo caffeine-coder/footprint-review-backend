@@ -25,6 +25,14 @@ The demo password is `footprint_demo_2026`. You can change it using `DEMO_PASSWO
 | Viewer | viewer@demo.local | footprint_demo_2026 |
 
 Admin and Editor can review submissions. Viewer has read-only access.
+## Deployment
+
+I also created a small automation through gihtub actions to host this on AWS. 
+Every push to main triggers a build to publish docker image to Aws ecr and it 
+then is deployed to ec2 through a document setup. Used a subdomain from my existing portfolio domain to access the app.
+
+`https://footprint.thecaffeinecoder.com`
+
 
 ## API
 
